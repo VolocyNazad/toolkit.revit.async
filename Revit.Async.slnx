@@ -1,0 +1,30 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug_2021.1.9" />
+    <BuildType Name="Debug_2023.0.0" />
+    <BuildType Name="Debug_2025.0.0" />
+    <BuildType Name="Debug_2026.0.0" />
+    <BuildType Name="Debug_2027.0.2" />
+    <BuildType Name="Release_2021.1.9" />
+    <BuildType Name="Release_2023.0.0" />
+    <BuildType Name="Release_2025.0.0" />
+    <BuildType Name="Release_2026.0.0" />
+    <BuildType Name="Release_2027.0.2" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="LICENSE.md" />
+    <File Path="NuGet.config" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="src/Revit.Async/Revit.Async.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="tests/Revit.Async.Tests/Revit.Async.Tests.csproj">
+    <Platform Project="x64" />
+  </Project>
+</Solution>

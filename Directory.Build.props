@@ -1,0 +1,22 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Platforms>x64</Platforms>
+    <Configurations>
+      Debug_2021.1.9;Debug_2023.0.0;Debug_2025.0.0;
+      Debug_2026.0.0;Debug_2027.0.2;
+      Release_2021.1.9;Release_2023.0.0;Release_2025.0.0;
+      Release_2026.0.0;Release_2027.0.2
+    </Configurations>
+    <!-- Visual Studio evaluates projects with plain Debug during design-time
+         loading. Use Revit 2025 as a safe fallback until a solution
+         configuration containing an explicit Revit version is selected. -->
+    <RevitVersion>$([System.Text.RegularExpressions.Regex]::Match('$(Configuration)', '\d{4}\.\d+\.\d+').Value)</RevitVersion>
+    <RevitVersion Condition="'$(RevitVersion)' == ''">2025.0.0</RevitVersion>
+    <MajorRevitVersion>$(RevitVersion.Split('.')[0])</MajorRevitVersion>
+  </PropertyGroup>
+</Project>

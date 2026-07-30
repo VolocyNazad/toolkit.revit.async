@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <AnalysisMode>None</AnalysisMode>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsNet8 Condition="'$(MajorRevitVersion)' == '2025' or '$(MajorRevitVersion)' == '2026' or '$(MajorRevitVersion)' == '2027'">true</IsNet8>
+    <IsNet8 Condition="'$(IsNet8)' == ''">false</IsNet8>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsNet8)' == 'true'">
+    <TargetFramework>net8.0-windows</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(IsNet8)' != 'true'">
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="xunit.v3" Version="3.2.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Revit.Async\Revit.Async.csproj" />
+  </ItemGroup>
+
+</Project>

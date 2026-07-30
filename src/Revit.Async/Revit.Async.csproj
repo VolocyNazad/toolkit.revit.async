@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Kennan Chan;VolocyNazad</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Copyright>Copyright (c) 2020 Kennan Chan</Copyright>
+    <Description>Task-based asynchronous access to the Autodesk Revit API.</Description>
+    <PackageTags>autodesk;revit;api;async;external-event</PackageTags>
+    <PackageId>VolocyNazad.Revit.Async</PackageId>
+    <PackageType>Dependency</PackageType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/VolocyNazad/toolkit.revit.async</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/VolocyNazad/toolkit.revit.async</RepositoryUrl>
+    <PackageOutputPath>..\..\artifacts\</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="" Visible="false" />
+    <None Include="..\..\LICENSE.md" Pack="true" PackagePath="" Visible="false" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <AssemblyVersion>$(MajorRevitVersion).0.6</AssemblyVersion>
+    <FileVersion>$(MajorRevitVersion).0.6</FileVersion>
+    <Version>$(MajorRevitVersion).0.6</Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsNet8 Condition="'$(MajorRevitVersion)' == '2025' or '$(MajorRevitVersion)' == '2026' or '$(MajorRevitVersion)' == '2027'">true</IsNet8>
+    <IsNet8 Condition="'$(IsNet8)' == ''">false</IsNet8>
+    <IsDebug Condition="$(Configuration.StartsWith('Debug'))">true</IsDebug>
+    <IsDebug Condition="'$(IsDebug)' == ''">false</IsDebug>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsNet8)' == 'true'">
+    <TargetFramework>net8.0-windows</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(IsNet8)' != 'true'">
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsDebug)' == 'true'">
+    <Optimize>false</Optimize>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(IsDebug)' != 'true'">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="$(RevitVersion)" PrivateAssets="all" />
+  </ItemGroup>
+
+  <Target Name="RemoveRevitAPICopyLocal" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)"
+                               Condition="'%(Filename)' == 'RevitAPI' or '%(Filename)' == 'RevitAPIUI'" />
+    </ItemGroup>
+  </Target>
+
+</Project>
