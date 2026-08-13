@@ -1,24 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="VolocyNazad.Revit.Sdk/1.0.43">
 
   <PropertyGroup>
+    <Platform>x64</Platform>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <AnalysisMode>None</AnalysisMode>
+    <NoWarn>CS1591</NoWarn>
   </PropertyGroup>
 
+  <!-- Скопировано 1-в-1 из основного .csproj, чтобы ProjectReference резолвился без SetConfiguration -->
   <PropertyGroup>
-    <IsNet8 Condition="'$(MajorRevitVersion)' == '2025' or '$(MajorRevitVersion)' == '2026' or '$(MajorRevitVersion)' == '2027'">true</IsNet8>
-    <IsNet8 Condition="'$(IsNet8)' == ''">false</IsNet8>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(IsNet8)' == 'true'">
-    <TargetFramework>net8.0-windows</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(IsNet8)' != 'true'">
-    <TargetFramework>net48</TargetFramework>
+    <Configurations>
+      Debug_2021.1.9;Debug_2023.0.0;Debug_2025.0.0;
+      Debug_2026.0.0;Debug_2027.0.2;
+      Release_2021.1.9;Release_2023.0.0;Release_2025.0.0;
+      Release_2026.0.0;Release_2027.0.2
+    </Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,5 +30,15 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Revit.Async\Revit.Async.csproj" />
   </ItemGroup>
+
+  <!--
+    SDK по умолчанию вырезает RevitAPI/RevitAPIUI из выходной папки (расчёт на то, что хост — сам Revit).
+    Тестовый процесс Revit не запускает, поэтому копирование нужно вернуть отдельным таргетом.
+  -->
+  <Target Name="RestoreRevitApiCopyLocalForTests" AfterTargets="RemoveRevitAPICopyLocal">
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Include="@(ReferencePath)" Condition="'%(Filename)' == 'RevitAPI' or '%(Filename)' == 'RevitAPIUI'" />
+    </ItemGroup>
+  </Target>
 
 </Project>

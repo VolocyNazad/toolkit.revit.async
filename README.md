@@ -9,3 +9,16 @@
 Revit.Async — библиотека для выполнения операций Revit API из немодальных окон и других контекстов через `ExternalEvent` с поддержкой `Task`.
 
 Основана на MIT-лицензированном проекте [Revit.Async](https://github.com/KennanChan/Revit.Async) Кеннана Чана.
+
+## Поддерживаемые версии Revit
+
+Пакет собирается под версии Revit 2021.1.9, 2023, 2025, 2026, 2027.0.2 (см. конфигурации в `Revit.Async.csproj`), таргетируя `net48` для версий до 2025 и `net8.0-windows` для 2025+.
+
+## Требования
+
+- .NET SDK 10.0.103+ (см. `global.json`)
+- Revit API (пакет `Revit_All_Main_Versions_API_x64`)
+
+## Лицензия
+
+MIT, см. [LICENSE.md](LICENSE.md).

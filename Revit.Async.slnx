@@ -12,7 +12,7 @@
     <BuildType Name="Release_2027.0.2" />
     <Platform Name="x64" />
   </Configurations>
-  <Folder Name="/Solution Items/">
+  <Folder Name="/solutionItems/">
     <File Path=".gitignore" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
@@ -21,10 +21,12 @@
     <File Path="NuGet.config" />
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Revit.Async.Tests/Revit.Async.Tests.csproj">
+      <Platform Project="x64" />
+    </Project>
+  </Folder>
   <Project Path="src/Revit.Async/Revit.Async.csproj">
-    <Platform Project="x64" />
-  </Project>
-  <Project Path="tests/Revit.Async.Tests/Revit.Async.Tests.csproj">
     <Platform Project="x64" />
   </Project>
 </Solution>
