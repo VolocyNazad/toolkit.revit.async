@@ -9,6 +9,8 @@ explicitly to the user and get confirmation before adding it.
 
 If a change affects the folder structure or the tech stack (a new/removed project, a new dependency, a version bump worth recording, a new convention), update this file accordingly as part of the same change - don't leave it to a later pass.
 
+Before changing existing tests or writing new ones, ask the user first – confirm what should be covered and how (or that the change is trivial enough not to need it) rather than deciding unilaterally.
+
 ## About
 
 Source for `VolocyNazad.Revit.Async`: async/await helpers for marshalling
