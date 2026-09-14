@@ -25,16 +25,14 @@
   <PropertyGroup>
     <Configurations>
       Debug_2021.1.9;Debug_2023.0.0;Debug_2025.0.0;
-      Debug_2026.0.0;Debug_2027.0.2;
-      Release_2021.1.9;Release_2023.0.0;Release_2025.0.0;
-      Release_2026.0.0;Release_2027.0.2
+      Release_2021.1.9;Release_2023.0.0;Release_2025.0.0
     </Configurations>
   </PropertyGroup>
 
   <!--
-    MinVer вычисляет minor.patch по git-тегам/истории коммитов, major всегда берётся из MajorRevitVersion (задаётся SDK из конфигурации).
-    Если HEAD не совпадает с тегом, MinVer сам увеличивает patch и добавляет суффикс "dev.<кол-во коммитов после тега>",
-    например: тег "0.0.6" + 4 коммита после него -> patch=7, MinVerPreRelease="dev.4".
+    MinVer computes minor.patch from git tags/commit history; major is always taken from MajorRevitVersion (set by the SDK from the configuration).
+    If HEAD does not match a tag, MinVer automatically increments patch and adds the suffix "dev.<number of commits after the tag>",
+    e.g.: tag "0.0.6" + 4 commits after it -> patch=7, MinVerPreRelease="dev.4".
   -->
   <PropertyGroup>
     <MinVerTagPrefix></MinVerTagPrefix>
@@ -44,11 +42,11 @@
 
   <Target Name="ApplyRevitVersion" AfterTargets="MinVer" BeforeTargets="GetAssemblyVersion;GenerateNuspec;CoreCompile">
     <PropertyGroup>
-      <!-- AssemblyVersion/FileVersion — только числа (System.Version не поддерживает суффиксы) -->
+      <!-- AssemblyVersion/FileVersion — numbers only (System.Version does not support suffixes) -->
       <AssemblyVersion>$(MajorRevitVersion).0.$(MinVerPatch)</AssemblyVersion>
       <FileVersion>$(MajorRevitVersion).0.$(MinVerPatch)</FileVersion>
 
-      <!-- Version/PackageVersion — с суффиксом "-dev.N", если сборка не из коммита с тегом -->
+      <!-- Version/PackageVersion — with a "-dev.N" suffix if the build is not from a tagged commit -->
       <Version Condition="'$(MinVerPreRelease)' == ''">$(MajorRevitVersion).0.$(MinVerPatch)</Version>
       <Version Condition="'$(MinVerPreRelease)' != ''">$(MajorRevitVersion).0.$(MinVerPatch)-$(MinVerPreRelease)</Version>
       <PackageVersion>$(Version)</PackageVersion>
@@ -56,8 +54,8 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="$(RevitVersion)" PrivateAssets="all" />
-    <PackageReference Include="MinVer" Version="6.*">
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="$(RevitVersion)" />
+    <PackageReference Include="MinVer" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
