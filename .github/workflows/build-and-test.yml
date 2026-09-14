@@ -1,0 +1,53 @@
+name: Build and test
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  build:
+    name: windows-latest
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        configuration: [
+          "Release_2021.1.9", "Release_2023.0.0", "Release_2025.0.0"
+        ]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
+    - name: Execute build and run tests
+      run: |
+        dotnet build --configuration "${{ matrix.configuration }}" /nologo
+
+        # Run every headless test project (*.Tests.csproj); *.RevitTests.csproj projects need a
+        # locally installed, licensed Revit process to execute and are not runnable on a hosted
+        # GitHub Actions runner, so they are excluded here (they are still built above).
+        $testProjects = Get-ChildItem -Recurse -Filter *.csproj |
+          Where-Object { $_.Name -match '\.Tests\.csproj$' -and $_.Name -notmatch 'RevitTests' }
+
+        foreach ($project in $testProjects) {
+          $framework = if ("${{ matrix.configuration }}" -eq "Release_2025.0.0") { "net8.0-windows" } else { "net48" }
+          $testExecutable = Join-Path $project.DirectoryName "bin/${{ matrix.configuration }}/$framework/$($project.BaseName).exe"
+          if (-not (Test-Path -LiteralPath $testExecutable)) {
+            throw "Test executable was not produced: $testExecutable"
+          }
+          & $testExecutable
+          if ($LASTEXITCODE -ne 0) {
+            throw "Tests failed for $($project.FullName) with exit code $LASTEXITCODE."
+          }
+        }
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: VolocyNazad.Revit.Async-${{ matrix.configuration }}
+        path: artifacts/*
