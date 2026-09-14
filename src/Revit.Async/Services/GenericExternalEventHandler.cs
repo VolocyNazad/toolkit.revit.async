@@ -11,6 +11,9 @@ namespace Revit.Async.ExternalEvents
         IGenericExternalEventHandler<TParameter, TResult>
     {
 
+        /// <summary>
+        /// Initializes a new handler with a unique identifier.
+        /// </summary>
         protected GenericExternalEventHandler()
         {
             Id = Guid.NewGuid();
@@ -18,6 +21,9 @@ namespace Revit.Async.ExternalEvents
 
 
 
+        /// <summary>
+        /// Gets the unique identifier of this handler instance.
+        /// </summary>
         public  Guid                                 Id            { get; }
         private TParameter?                           Parameter     { get; set; }
         private IExternalEventResultHandler<TResult>? ResultHandler { get; set; }
@@ -60,6 +66,7 @@ namespace Revit.Async.ExternalEvents
                                         IExternalEventResultHandler<TResult> resultHandler);
 
 
+        /// <inheritdoc />
         public abstract object Clone();
     }
 }

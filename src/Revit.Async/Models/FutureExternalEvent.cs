@@ -67,7 +67,7 @@ internal sealed class FutureExternalEvent : ICloneable, IDisposable
 
     internal static void Initialize(UIControlledApplication application)
     {
-        if (application is null) throw new ArgumentNullException(nameof(application));
+        Guard.ThrowIfNull(application, nameof(application));
         InitializeCore(() =>
         {
             var handler = new ExternalEventHandlerCreator();
@@ -77,7 +77,7 @@ internal sealed class FutureExternalEvent : ICloneable, IDisposable
 
     internal static void Initialize(UIApplication application)
     {
-        if (application is null) throw new ArgumentNullException(nameof(application));
+        Guard.ThrowIfNull(application, nameof(application));
         InitializeCore(() =>
         {
             var handler = new ExternalEventHandlerCreator();

@@ -23,6 +23,10 @@ namespace Revit.Async.Extensions
             Task<TSource>                                         source,
             Action<TSource, IExternalEventResultHandler<TResult>> onComplete)
         {
+            Guard.ThrowIfNull(resultHandler, nameof(resultHandler));
+            Guard.ThrowIfNull(source, nameof(source));
+            Guard.ThrowIfNull(onComplete, nameof(onComplete));
+
             source.ContinueWith(task =>
             {
                 if (task.IsFaulted)
@@ -55,6 +59,10 @@ namespace Revit.Async.Extensions
             Task<TSource>                             source,
             Action<TSource>                           onComplete)
         {
+            Guard.ThrowIfNull(resultHandler, nameof(resultHandler));
+            Guard.ThrowIfNull(source, nameof(source));
+            Guard.ThrowIfNull(onComplete, nameof(onComplete));
+
             source.ContinueWith(task =>
             {
                 if (task.IsFaulted)
@@ -83,6 +91,9 @@ namespace Revit.Async.Extensions
             this IExternalEventResultHandler<TResult> resultHandler,
             Task<TResult>                             task)
         {
+            Guard.ThrowIfNull(resultHandler, nameof(resultHandler));
+            Guard.ThrowIfNull(task, nameof(task));
+
             try
             {
                 var result = await task.ConfigureAwait(false);
@@ -106,6 +117,9 @@ namespace Revit.Async.Extensions
         /// <param name="function"></param>
         public static void Wait<TResult>(this IExternalEventResultHandler<TResult> resultHandler, Func<TResult> function)
         {
+            Guard.ThrowIfNull(resultHandler, nameof(resultHandler));
+            Guard.ThrowIfNull(function, nameof(function));
+
             try
             {
                 var result = function();

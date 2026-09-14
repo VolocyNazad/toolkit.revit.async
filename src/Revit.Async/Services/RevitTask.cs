@@ -50,6 +50,7 @@ namespace Revit.Async
             throw new HandlerNotRegisteredException(typeof(THandler));
         }
 
+        /// <inheritdoc />
         public Task<TResult> RaiseNew<THandler, TParameter, TResult>(TParameter parameter)
             where THandler : IGenericExternalEventHandler<TParameter, TResult>
         {
@@ -66,7 +67,7 @@ namespace Revit.Async
         public void Register<TParameter, TResult>(IGenericExternalEventHandler<TParameter, TResult> handler)
         {
             ThrowIfDisposed();
-            if (handler is null) throw new ArgumentNullException(nameof(handler));
+            Guard.ThrowIfNull(handler, nameof(handler));
             var futureExternalEvent = new FutureExternalEvent(handler);
             if (!_scopedRegisteredExternalEvents.TryAdd(handler.GetType(), futureExternalEvent))
             {
@@ -180,7 +181,7 @@ namespace Revit.Async
         /// <param name="handler">The instance of <see cref="IGenericExternalEventHandler{TParameter,TResult}" /></param>
         public static void RegisterGlobal<TParameter, TResult>(IGenericExternalEventHandler<TParameter, TResult> handler)
         {
-            if (handler is null) throw new ArgumentNullException(nameof(handler));
+            Guard.ThrowIfNull(handler, nameof(handler));
             var futureExternalEvent = new FutureExternalEvent(handler);
             if (!RegisteredExternalEvents.TryAdd(handler.GetType(), futureExternalEvent))
             {
@@ -208,7 +209,7 @@ namespace Revit.Async
         /// <returns>The result</returns>
         public static Task<TResult> RunAsync<TResult>(Func<UIApplication, TResult> function)
         {
-            if (function is null) throw new ArgumentNullException(nameof(function));
+            Guard.ThrowIfNull(function, nameof(function));
             var handler             = new SyncDelegateExternalEventHandler<TResult>();
             var futureExternalEvent = new FutureExternalEvent(handler);
             return RunAndDisposeAsync<Func<UIApplication, TResult>, TResult>(futureExternalEvent, function);
@@ -239,7 +240,7 @@ namespace Revit.Async
         /// <returns></returns>
         public static Task<TResult> RunAsync<TResult>(Func<UIApplication, Task<TResult>> function)
         {
-            if (function is null) throw new ArgumentNullException(nameof(function));
+            Guard.ThrowIfNull(function, nameof(function));
             var handler             = new AsyncDelegateExternalEventHandler<TResult>();
             var futureExternalEvent = new FutureExternalEvent(handler);
             return RunAndDisposeAsync<Func<UIApplication, Task<TResult>>, TResult>(futureExternalEvent, function);
@@ -289,7 +290,7 @@ namespace Revit.Async
         /// <returns></returns>
         public static Task RunAsync(Func<UIApplication, Task> function)
         {
-            if (function is null) throw new ArgumentNullException(nameof(function));
+            Guard.ThrowIfNull(function, nameof(function));
             return RunAsync(async app =>
             {
                 await function(app).ConfigureAwait(false);
