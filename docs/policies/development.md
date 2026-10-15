@@ -47,11 +47,11 @@ Projects using xUnit v3 4.0 run through Microsoft.Testing.Platform, selected in 
 
 ## Supported Revit versions
 
-This repository supports Revit 2021.1.9, 2023.0.0, and 2025.0.0. Keep project configurations, tests, CI, documentation, and produced packages limited to this matrix. The shared SDK maintains its own broader compatibility range.
+This repository supports Revit 2021.1.100, 2022.1.80, 2023.1.90, 2024.3.60, 2025.4.60, 2026.4.10, and 2027.3.0. Keep project configurations, tests, CI, documentation, and produced packages limited to this matrix. The shared SDK maintains its own broader compatibility range.
 
 ## Revit API dependency
 
-Keep Revit_All_Main_Versions_API_x64 visible to package consumers because public APIs expose Autodesk.Revit types. Control whether Revit assemblies are copied to application output through build metadata rather than PrivateAssets.
+Keep Nice3point.Revit.Api.RevitAPI / Nice3point.Revit.Api.RevitAPIUI visible to package consumers because public APIs expose Autodesk.Revit types. Control whether Revit assemblies are copied to application output through build metadata rather than PrivateAssets.
 
 ## Package version management
 

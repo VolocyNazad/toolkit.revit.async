@@ -13,7 +13,8 @@ jobs:
     strategy:
       matrix:
         configuration: [
-          "Release_2021.1.9", "Release_2023.0.0", "Release_2025.0.0"
+          "Release_2021.1.100", "Release_2022.1.80", "Release_2023.1.90", "Release_2024.3.60",
+          "Release_2025.4.60", "Release_2026.4.10", "Release_2027.3.0"
         ]
 
     steps:
@@ -36,7 +37,8 @@ jobs:
           Where-Object { $_.Name -match '\.Tests\.csproj$' -and $_.Name -notmatch 'RevitTests' }
 
         foreach ($project in $testProjects) {
-          $framework = if ("${{ matrix.configuration }}" -eq "Release_2025.0.0") { "net8.0-windows" } else { "net48" }
+          $year = [int]([regex]::Match("${{ matrix.configuration }}", '^Release_(\d{4})\.').Groups[1].Value)
+          $framework = if ($year -ge 2027) { "net10.0-windows" } elseif ($year -ge 2025) { "net8.0-windows" } else { "net48" }
           $testExecutable = Join-Path $project.DirectoryName "bin/${{ matrix.configuration }}/$framework/$($project.BaseName).exe"
           if (-not (Test-Path -LiteralPath $testExecutable)) {
             throw "Test executable was not produced: $testExecutable"
