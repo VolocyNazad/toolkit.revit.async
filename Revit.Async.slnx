@@ -20,6 +20,7 @@
     <File Path=".gitignore" />
     <File Path="AGENTS.md" />
     <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
     <File Path="global.json" />
     <File Path="LICENSE.md" />
     <File Path="NuGet.config" />
@@ -29,6 +30,7 @@
     <File Path=".editorconfig" />
   </Folder>
   <Folder Name="/tests/">
+    <File Path="tests/Directory.Packages.props" />
     <Project Path="tests/Revit.Async.Tests/Revit.Async.Tests.csproj">
       <Platform Project="x64" />
     </Project>

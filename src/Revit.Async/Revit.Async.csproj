@@ -54,12 +54,8 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(MajorRevitVersion).*" />
-    <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(MajorRevitVersion).*" />
-    <PackageReference Include="MinVer" Version="8.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPI" />
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" />
   </ItemGroup>
 
 </Project>

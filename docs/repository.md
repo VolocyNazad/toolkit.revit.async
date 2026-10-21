@@ -25,11 +25,12 @@ thread). Widely depended upon across the ecosystem, e.g.
 ## Tech stack
 
 - .NET, built against `Nice3point.Revit.Api.RevitAPI` /
-  `Nice3point.Revit.Api.RevitAPIUI` (floating `$(MajorRevitVersion).*`, so each
-  major resolves to its latest stable API patch)
+  `Nice3point.Revit.Api.RevitAPIUI`; the package version follows the selected
+  build configuration (for example `Release_2026.4.10` uses `2026.4.10`)
 - MinVer (git-tag-based versioning)
 - Tests use xUnit.
-- Package versions are declared directly in project files; central package management is not used
+- Package versions are managed centrally in `Directory.Packages.props`; test-only
+  packages live in `tests/Directory.Packages.props`
 
 ## Documentation layout
 
@@ -60,7 +61,7 @@ The root `.editorconfig` defines the portable formatting baseline. Existing repo
 ## Package dependency contract
 
 The Revit API package remains a transitive compile-time dependency because public members accept and return Autodesk.Revit types. The Revit SDK controls copy-local behavior for host-provided assemblies.
-- Package versions are set directly on each PackageReference; this repository does not use central package management.
+- Package versions are managed centrally; the Revit API package version is derived from the Revit build configuration so every supported host receives its matching API assembly.
 
 ## Versioning and release tags
 
