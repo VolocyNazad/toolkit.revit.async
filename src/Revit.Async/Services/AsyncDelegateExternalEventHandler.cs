@@ -9,7 +9,7 @@ namespace Revit.Async.ExternalEvents
     ///     Accept a delegate as parameter
     /// </summary>
     /// <typeparam name="TResult">The type of result to be generated</typeparam>
-    internal class AsyncDelegateExternalEventHandler<TResult> :
+    internal sealed class AsyncDelegateExternalEventHandler<TResult> :
         AsyncGenericExternalEventHandler<Func<UIApplication, Task<TResult>>, TResult>
     {
 

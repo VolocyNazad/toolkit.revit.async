@@ -4,7 +4,7 @@ using Autodesk.Revit.UI;
 
 namespace Revit.Async.ExternalEvents
 {
-    internal class ExternalEventHandlerCreator : SyncGenericExternalEventHandler<IExternalEventHandler, ExternalEvent>
+    internal sealed class ExternalEventHandlerCreator : SyncGenericExternalEventHandler<IExternalEventHandler, ExternalEvent>
     {
 
         public override string GetName()

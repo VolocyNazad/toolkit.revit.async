@@ -4,7 +4,7 @@ using Revit.Async.Interfaces;
 
 namespace Revit.Async.Entities
 {
-    internal class DefaultResultHandler<TResult> :
+    internal sealed class DefaultResultHandler<TResult> :
         IExternalEventResultHandler<TResult>
     {
 

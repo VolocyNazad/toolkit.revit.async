@@ -4,3 +4,36 @@ root = true
 charset = utf-8
 end_of_line = crlf
 trim_trailing_whitespace = true
+
+# --- Intentional design-rule exceptions ---------------------------------------------------------
+
+# Raise(), RaiseNew(), RaiseGlobal() and RaiseGlobalNew() are the public entry points: they queue work
+# for Revit and mirror the Autodesk external-event vocabulary, so they are methods, not events. The
+# New suffix belongs to the same public name. The handler classes end with "EventHandler" because
+# they implement Autodesk.Revit.UI.IExternalEventHandler.
+[src/Revit.Async/Abstractions/*.cs]
+dotnet_diagnostic.CA1030.severity = none
+dotnet_diagnostic.CA1711.severity = none
+
+[src/Revit.Async/Services/*.cs]
+dotnet_diagnostic.CA1030.severity = none
+dotnet_diagnostic.CA1711.severity = none
+# ObjectDisposedException.ThrowIf exists from .NET 7 only, and the library targets net48 for Revit
+# 2021-2024, so the explicit throw stays.
+dotnet_diagnostic.CA1513.severity = none
+
+# The exception types are sealed and carry a message fixed by the library; a caller-supplied message
+# or an inner exception has no meaning for them, so the standard constructor set is not added.
+[src/Revit.Async/Exceptions/*.cs]
+dotnet_diagnostic.CA1032.severity = none
+
+# The catch-all forwards every failure of the awaited delegate to the result handler, which rethrows
+# it on the awaiting caller's side; letting an exception escape would break the external-event
+# contract.
+[src/Revit.Async/Extensions/*.cs]
+dotnet_diagnostic.CA1031.severity = none
+
+# ObjectDisposedException.ThrowIf exists from .NET 7 only, and the library targets net48 for Revit
+# 2021-2024, so the explicit throw stays.
+[src/Revit.Async/Models/*.cs]
+dotnet_diagnostic.CA1513.severity = none

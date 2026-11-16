@@ -31,7 +31,8 @@ namespace Revit.Async.Extensions
             {
                 if (task.IsFaulted)
                 {
-                    resultHandler.ThrowException(task.Exception ?? new Exception("Unknown Exception"));
+                    // A faulted task always carries the aggregate exception, so no placeholder is needed.
+                    resultHandler.ThrowException(task.Exception!);
                 }
                 else if (task.IsCanceled)
                 {
@@ -41,7 +42,7 @@ namespace Revit.Async.Extensions
                 {
                     onComplete(task.Result, resultHandler);
                 }
-            });
+            }, TaskScheduler.Current);
             return resultHandler;
         }
 
@@ -67,7 +68,8 @@ namespace Revit.Async.Extensions
             {
                 if (task.IsFaulted)
                 {
-                    resultHandler.ThrowException(task.Exception ?? new Exception("Unknown Exception"));
+                    // A faulted task always carries the aggregate exception, so no placeholder is needed.
+                    resultHandler.ThrowException(task.Exception!);
                 }
                 else if (task.IsCanceled)
                 {
@@ -77,7 +79,7 @@ namespace Revit.Async.Extensions
                 {
                     onComplete(task.Result);
                 }
-            });
+            }, TaskScheduler.Current);
             return resultHandler;
         }
 
@@ -92,7 +94,9 @@ namespace Revit.Async.Extensions
             Task<TResult>                             task)
         {
             Guard.ThrowIfNull(resultHandler, nameof(resultHandler));
-            Guard.ThrowIfNull(task, nameof(task));
+            // Guard returns the argument, and the argument is itself a Task, so the call must be
+            // discarded explicitly to keep it out of the awaitable-expression warning.
+            _ = Guard.ThrowIfNull(task, nameof(task));
 
             try
             {
